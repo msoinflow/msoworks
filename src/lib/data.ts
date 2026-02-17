@@ -1,4 +1,4 @@
-export type TaglineEffect = "float" | "scale" | "colorize" | "typewriter";
+export type TaglineEffect = "float" | "scale" | "colorize" | "typewriter" | "slide";
 
 export interface Project {
   title: string;
@@ -39,6 +39,22 @@ export const projects: Project[] = [
       "Let AI handle the boring parts — so you can focus on the interesting ones. Custom automations that actually save time.",
     tags: ["AI", "No-Code", "Automation"],
     tagline: "robots doing the boring stuff.",
+    taglineEffect: "typewriter",
+  },
+  {
+    title: "Mobile App Development",
+    description:
+      "An app that actually gets used. I build clean, performant mobile experiences — from idea to the App Store.",
+    tags: ["React Native", "SwiftUI", "TypeScript"],
+    tagline: "swiping is a feature.",
+    taglineEffect: "slide",
+  },
+  {
+    title: "Web Development & Design",
+    description:
+      "Fast, accessible, and good-looking websites. Built from scratch or on top of what you already have.",
+    tags: ["Next.js", "Tailwind", "TypeScript"],
+    tagline: "yes, it's responsive.",
     taglineEffect: "typewriter",
   },
 ];
