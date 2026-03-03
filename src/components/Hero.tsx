@@ -8,6 +8,7 @@ import {
   useSpring,
   useMotionTemplate,
 } from "framer-motion";
+import { isSafariBrowser } from "@/lib/safari";
 
 const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%";
 const TARGET_NAME = "Mehmet Salih Ozdinc";
@@ -63,8 +64,11 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { damping: 20, stiffness: 150 });
-  const springY = useSpring(mouseY, { damping: 20, stiffness: 150 });
+  const springCfg = isSafariBrowser()
+    ? { damping: 28, stiffness: 90 }
+    : { damping: 20, stiffness: 150 };
+  const springX = useSpring(mouseX, springCfg);
+  const springY = useSpring(mouseY, springCfg);
   const spotlightBg = useMotionTemplate`radial-gradient(600px at ${springX}px ${springY}px, rgba(224, 122, 95, 0.08), transparent 80%)`;
 
   useEffect(() => {
@@ -91,7 +95,7 @@ export default function Hero({ onExplore }: { onExplore: () => void }) {
       {/* Cursor spotlight */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: spotlightBg }}
+        style={{ background: spotlightBg, willChange: "background", transform: "translateZ(0)" }}
         animate={{ opacity: isHovering ? 1 : 0 }}
         transition={{ duration: 0.5 }}
       />

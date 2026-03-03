@@ -22,6 +22,8 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-sans), system-ui, sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: #2e2e2e #111111;
 }
 
 /* Hide native cursor on pointer devices — custom cursor handles display */
@@ -29,6 +31,19 @@ body {
   *, *::before, *::after {
     cursor: none !important;
   }
+}
+
+@keyframes grain {
+  0%,100% { transform: translate(0, 0) translateZ(0); }
+  10%      { transform: translate(-2%, -3%) translateZ(0); }
+  20%      { transform: translate(3%, 1%) translateZ(0); }
+  30%      { transform: translate(-1%, 4%) translateZ(0); }
+  40%      { transform: translate(4%, -2%) translateZ(0); }
+  50%      { transform: translate(-3%, 3%) translateZ(0); }
+  60%      { transform: translate(2%, -4%) translateZ(0); }
+  70%      { transform: translate(-4%, 1%) translateZ(0); }
+  80%      { transform: translate(1%, 3%) translateZ(0); }
+  90%      { transform: translate(-2%, -1%) translateZ(0); }
 }
 
 ::-webkit-scrollbar {

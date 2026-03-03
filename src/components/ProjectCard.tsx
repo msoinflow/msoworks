@@ -3,6 +3,7 @@
 import { useId, useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring, useMotionTemplate } from "framer-motion";
 import type { Project, TaglineEffect } from "@/lib/data";
+import { isSafariBrowser } from "@/lib/safari";
 
 interface ProjectCardProps {
   project: Project;
@@ -321,10 +322,14 @@ export default function ProjectCard({
   const glareX = useMotionValue(50);
   const glareY = useMotionValue(50);
 
-  const springRotX = useSpring(rotateX, { damping: 22, stiffness: 200 });
-  const springRotY = useSpring(rotateY, { damping: 22, stiffness: 200 });
-  const springGlareX = useSpring(glareX, { damping: 22, stiffness: 200 });
-  const springGlareY = useSpring(glareY, { damping: 22, stiffness: 200 });
+  const springCfg = isSafariBrowser()
+    ? { damping: 28, stiffness: 120 }
+    : { damping: 22, stiffness: 200 };
+
+  const springRotX = useSpring(rotateX, springCfg);
+  const springRotY = useSpring(rotateY, springCfg);
+  const springGlareX = useSpring(glareX, springCfg);
+  const springGlareY = useSpring(glareY, springCfg);
 
   const glareBg = useMotionTemplate`radial-gradient(circle at ${springGlareX}% ${springGlareY}%, rgba(255,255,255,0.07), transparent 60%)`;
 
@@ -347,6 +352,7 @@ export default function ProjectCard({
   };
 
   return (
+    <div style={{ perspective: "1000px" }}>
     <motion.div
       onMouseEnter={onMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -361,7 +367,6 @@ export default function ProjectCard({
       style={{
         rotateX: springRotX,
         rotateY: springRotY,
-        transformPerspective: 1000,
       }}
       transition={{ duration: 0.3, ease: "easeOut" }}
       className="bg-surface rounded-lg overflow-hidden border border-border"
@@ -376,7 +381,12 @@ export default function ProjectCard({
         {/* Glare */}
         <motion.div
           className="absolute inset-0 pointer-events-none rounded-t-lg"
-          style={{ background: glareBg, opacity: isHovered ? 1 : 0 }}
+          style={{
+            background: glareBg,
+            opacity: isHovered ? 1 : 0,
+            willChange: "background",
+            transform: "translateZ(0)",
+          }}
           transition={{ duration: 0.2 }}
         />
 
@@ -411,5 +421,6 @@ export default function ProjectCard({
         </div>
       </div>
     </motion.div>
+    </div>
   );
 }

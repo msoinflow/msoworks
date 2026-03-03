@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { isSafariBrowser } from "@/lib/safari";
 import ProjectsGrid from "./ProjectsGrid";
 import { projects, socials, email } from "@/lib/data";
 
@@ -50,8 +51,11 @@ function MagneticMenuItem({
 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { damping: 25, stiffness: 200 });
-  const springY = useSpring(y, { damping: 25, stiffness: 200 });
+  const springCfg = isSafariBrowser()
+    ? { damping: 28, stiffness: 120 }
+    : { damping: 25, stiffness: 200 };
+  const springX = useSpring(x, springCfg);
+  const springY = useSpring(y, springCfg);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();

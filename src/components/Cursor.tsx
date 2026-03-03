@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { isSafariBrowser } from "@/lib/safari";
 
 export default function Cursor() {
   const [isPointer, setIsPointer] = useState(false);
@@ -10,8 +11,11 @@ export default function Cursor() {
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
-  const ringX = useSpring(mouseX, { damping: 22, stiffness: 280, mass: 0.5 });
-  const ringY = useSpring(mouseY, { damping: 22, stiffness: 280, mass: 0.5 });
+  const springCfg = isSafariBrowser()
+    ? { damping: 28, stiffness: 160, mass: 0.5 }
+    : { damping: 22, stiffness: 280, mass: 0.5 };
+  const ringX = useSpring(mouseX, springCfg);
+  const ringY = useSpring(mouseY, springCfg);
 
   useEffect(() => {
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
